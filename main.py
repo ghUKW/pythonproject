@@ -13,8 +13,6 @@ screen.geometry("500x500")
 canvas = Canvas(screen, width = 300, height = 300, bg="white") 
 canvas.pack(pady=20)
 
-#img = PhotoImage(file='C:/Users/Aleksander/Desktop/pythonproject/Untitled.png')  
-#image_id = canvas.create_image(0, 0, anchor=NW, image=img)
 
 
 def select_image():
