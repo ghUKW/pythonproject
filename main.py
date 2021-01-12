@@ -26,11 +26,15 @@ def select_image():
     filepath = filedialog.askopenfilename()
     img = Image.open(filepath)
 
-    #imread = (64,64,3)   
+    numpy_image=numpy.array(img)  
+    print(numpy_image.shape) 
+    # imread = (64,64,3)   
     opencvImage = numpy.array(img) 
-    opencvImage = opencvImage[:, :, ::-1].copy() 
+    opencvImage = opencvImage[:, :, :].copy() 
     dim = (64, 64)
     opencvImage = cv.resize(opencvImage, dim, interpolation = cv.INTER_AREA)
+    # print(opencvImage.shape) -> ksztalt (64, 64, 3)
+    
 
     # Image = 200x200
     img = img.resize((xCanvasSize, yCanvasSize)) 
