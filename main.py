@@ -38,14 +38,17 @@ def select_image():
     #load image
     filepath = filedialog.askopenfilename()
     img = Image.open(filepath)
-    img = img.resize((64,64), Image.ANTIALIAS)
-    opencvImage = img_to_array(img) 
-    #opencvImage = cv.resize(opencvImage,(64,64))   
-    #img_ = cv.resize(opencvImage, dim, interpolation = cv.INTER_AREA)
-    print(opencvImage.shape)
-    #img_ = numpy.reshape(opencvImage,[1,64,64,3])
-    pres_pred()
-    #print(img_.shape)
+
+    numpy_image=numpy.array(img)  
+    print(numpy_image.shape) 
+    # imread = (64,64,3)   
+    opencvImage = numpy.array(img) 
+    opencvImage = opencvImage[:, :, :].copy() 
+    dim = (64, 64)
+    opencvImage = cv.resize(opencvImage, dim, interpolation = cv.INTER_AREA)
+    # print(opencvImage.shape) -> ksztalt (64, 64, 3)
+    
+
     # Image = 200x200
     img = img.resize((xCanvasSize, yCanvasSize)) 
     imgTk = ImageTk.PhotoImage(img)
