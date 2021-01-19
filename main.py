@@ -9,6 +9,9 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from signs import road_signs
+from skimage import transform
+from skimage import exposure
+from skimage import io
 
 xCanvasSize = 200
 yCanvasSize = 200
@@ -19,14 +22,14 @@ screen.geometry("500x500")
 
 canvas = Canvas(screen, width = xCanvasSize, height = yCanvasSize, bg="white") 
 canvas.pack(pady=20)
-model = load_model('.\Sieci_znaki.hdf5')
+print(os.getcwd())
+model = load_model('.\signnet.model')
 
 filepath =''
 PredLabel = tk.Label(text="")
-
+znaki = road_signs
 
 def select_image():
-   
     global filepath
     # load image
     filepath = filedialog.askopenfilename()
@@ -37,10 +40,15 @@ def select_image():
     canvas.create_image(0,0, anchor=NW, image=imgTk)
     canvas.image = imgTk 
 
-def predict(image):
-    pred = model.predict_classes(image)
-    print(pred)
-    return pred
+def predict(imagePath):
+    img = io.imread(imagePath)
+    image = transform.resize(img, (32, 32))
+    image = exposure.equalize_adapthist(image, clip_limit=0.1)
+    image = image.astype("float32") / 255.0
+    image = np.expand_dims(image, axis=0)
+    preds = model.predict(image)
+    j = preds.argmax(axis=1)[0]  
+    print(znaki[str(j)])
 
 def pres_pred():
     for x in range(0,42):
@@ -59,7 +67,7 @@ def show_message(pred):
     PredLabel.pack()
 
 button = tk.Button(text="Upload image", command=select_image)
-buttonPredict = tk.Button(text="Predict", command=pres_pred)
+buttonPredict = tk.Button(text="Predict", command=lambda : predict(filepath))
 
 button.pack()
 buttonPredict.pack()
