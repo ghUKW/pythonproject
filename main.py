@@ -23,7 +23,7 @@ screen.geometry("500x500")
 canvas = Canvas(screen, width = xCanvasSize, height = yCanvasSize, bg="white") 
 canvas.pack(pady=20)
 print(os.getcwd())
-model = load_model('.\signnet.model')
+model = load_model('./pythonproject/signnet.model')
 
 filepath =''
 PredLabel = tk.Label(text="")
