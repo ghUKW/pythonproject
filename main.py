@@ -23,7 +23,8 @@ screen.geometry("500x500")
 canvas = Canvas(screen, width = xCanvasSize, height = yCanvasSize, bg="white") 
 canvas.pack(pady=20)
 print(os.getcwd())
-model = load_model('./pythonproject/signnet.model')
+# model = load_model('./pythonproject/signnet.model')
+model = load_model('.\signnet.model')
 
 filepath =''
 PredLabel = tk.Label(text="")
@@ -41,14 +42,18 @@ def select_image():
     canvas.image = imgTk 
 
 def predict(imagePath):
-    img = io.imread(imagePath)
-    image = transform.resize(img, (32, 32))
-    image = exposure.equalize_adapthist(image, clip_limit=0.1)
-    image = image.astype("float32") / 255.0
-    image = np.expand_dims(image, axis=0)
-    preds = model.predict(image)
-    j = preds.argmax(axis=1)[0]  
-    print(znaki[str(j)])
+    try:
+        img = io.imread(imagePath)
+        image = transform.resize(img, (32, 32))
+        image = exposure.equalize_adapthist(image, clip_limit=0.1)
+        image = image.astype("float32") / 255.0
+        image = np.expand_dims(image, axis=0)
+        preds = model.predict(image)
+        j = preds.argmax(axis=1)[0]  
+        print(znaki[str(j)])
+        show_message(znaki[str(j)])
+    except:
+        show_message("Nie znaleziono tego znaku")
 
 def pres_pred():
     for x in range(0,42):
@@ -63,7 +68,7 @@ def pres_pred():
 def show_message(pred):
     print(pred)
     global PredLabel
-    PredLabel.config(text="Wynik predykcji: " + str(road_signs[str(pred)]))
+    PredLabel.config(text="Wynik predykcji: " + pred)
     PredLabel.pack()
 
 button = tk.Button(text="Upload image", command=select_image)
