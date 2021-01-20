@@ -22,9 +22,9 @@ screen.geometry("500x500")
 
 canvas = Canvas(screen, width = xCanvasSize, height = yCanvasSize, bg="white") 
 canvas.pack(pady=20)
-print(os.getcwd())
-# model = load_model('./pythonproject/signnet.model')
-model = load_model('.\signnet.model')
+
+model = load_model('./pythonproject/signnet.model')
+#model = load_model('.\signnet.model')
 
 filepath =''
 PredLabel = tk.Label(text="")
@@ -50,20 +50,9 @@ def predict(imagePath):
         image = np.expand_dims(image, axis=0)
         preds = model.predict(image)
         j = preds.argmax(axis=1)[0]  
-        print(znaki[str(j)])
         show_message(znaki[str(j)])
     except:
         show_message("Nie znaleziono tego znaku")
-
-def pres_pred():
-    for x in range(0,42):
-        img = cv.imread(filepath.format(x))
-        img_ = cv.resize(img,(64,64))
-        img_ = np.reshape(img_,[1,64,64,3])
-        pred =np.argmax(model.predict(img_), axis=-1)
-        print('Dla obrazka {0} klasa: {1}'.format(x,pred[0]))
-    show_message(pred)
-
 
 def show_message(pred):
     print(pred)

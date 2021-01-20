@@ -1,6 +1,6 @@
 import matplotlib
 matplotlib.use("Agg")
-from pyimagesearch.trafficsignnet import TrafficSignNet
+from trafficsignnet import TrafficSignNet
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
