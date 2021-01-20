@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
-import cv2 as cv
 import numpy as np
 import os
 from PIL import Image, ImageTk
@@ -34,8 +33,7 @@ def select_image():
     global filepath
     # load image
     filepath = filedialog.askopenfilename()
-    img = Image.open(filepath)
-    numpy_image=np.array(img)  
+    img = Image.open(filepath) 
     img = img.resize((xCanvasSize, yCanvasSize)) 
     imgTk = ImageTk.PhotoImage(img)
     canvas.create_image(0,0, anchor=NW, image=imgTk)
@@ -55,7 +53,6 @@ def predict(imagePath):
         show_message("Nie znaleziono tego znaku")
 
 def show_message(pred):
-    print(pred)
     global PredLabel
     PredLabel.config(text="Wynik predykcji: " + pred)
     PredLabel.pack()
